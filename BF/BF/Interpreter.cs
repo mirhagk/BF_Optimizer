@@ -64,10 +64,6 @@ namespace BF
                     case ']':
                         if (labels.Count == 0)
                             Error.WriteLine("ERROR: ] has no matching [ at position {0}", i);
-                        if (debug)
-                        {
-                            Error.WriteLine("DEBUG: Jumping to position {0}, pointer at {1}, memory at {2}", i, ptr, memory[ptr]);
-                        }
                         if (memory[ptr] != 0)
                             i = labels.Peek();
                         else
@@ -82,7 +78,11 @@ namespace BF
                     default://the BF spec states that any non-understood characters should simply be ignored
                         break;
                     case '#':
-                        Error.WriteLine("DEBUG: {0}", string.Join(" ", memory.Take(5).Select((x)=>x.ToString())));
+                        if (debug)
+                        {
+                            Error.WriteLine("DEBUG: {0}", string.Join(" ", memory.Take(5).Select((x)=>x.ToString())));
+                            Console.ReadKey();
+                        }
                         break;
                 }
             }
