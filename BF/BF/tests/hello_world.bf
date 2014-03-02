@@ -1,4 +1,9 @@
-﻿+++++ +++++             initialize counter (cell 0) to 10
+﻿[ This test case tests loops and basic math by outputting hello world ]
+[Name:Hello World]
+[Test Input:]
+[Expected Output:Hello World!\n]
+
++++++ +++++             initialize counter (cell 0) to 10
 [                       use loop to set the next four cells to 70/100/30/10
     > +++++ ++              add  7 to cell 1
     > +++++ +++++           add 10 to cell 2 

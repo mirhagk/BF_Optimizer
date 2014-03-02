@@ -1,4 +1,9 @@
-﻿[+++++++.+++.][   <- If you get this nl your loops are fucked. ->
+﻿[ This test case tests loops and basic math by outputting hello world ]
+[Name:Hello World]
+[Test Input:]
+[Expected Output:Hello, world!\n]
+
+[+++++++.+++.][   <- If you get this nl your loops are fucked. ->
 
 
 	THIS FILE IS LICENSED UNDER THE GNU GPL V2. THE TERMS CAN BE FOUND HERE: 

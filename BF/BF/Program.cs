@@ -3,16 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BF
 {
     class Program
     {
-        static bool RunTestFile(string fileName, string input, string expectedOutput, bool debug=false)
+        static string ReplaceEscapedCharacters(string input)
         {
-            string code = File.ReadAllText(String.Format("tests\\{0}.bf", fileName));
-            return RunTest(fileName, code, input, expectedOutput,debug);
+            return input.Replace("\\n", "\n");
+        }
+        static bool RunTestFile(string fileName, bool debug=false)
+        {
+            string code = File.ReadAllText(fileName);
+            string expectedOutput = ReplaceEscapedCharacters(Regex.Match(code, @"\[Expected Output:([^\]]*)\]").Groups[1].Value);
+            string input = ReplaceEscapedCharacters(Regex.Match(code, @"\[Test Input:([^\]]*)\]").Groups[1].Value);
+            string name = Regex.Match(code, @"\[Name:([^\]]*)\]").Groups[1].Value;
+            if (string.IsNullOrEmpty(name))
+                name = fileName;
+            return RunTest(name, code, input, expectedOutput,debug);
         }
         static bool RunTest(string testName, string code, string input, string expectedOutput, bool debug =false)
         {
@@ -20,13 +30,13 @@ namespace BF
             Interpreter interpret = new Interpreter(output: output);
             if (input!="")
                 interpret.Input=new StringReader(input);
-            Console.WriteLine("Running Test Case {0}", testName);
+            Console.WriteLine("Running Test Case: {0}", testName);
             interpret.Run(code,debug);
             bool passed = expectedOutput == output.ToString();
-            Console.WriteLine("\tExpected Output: {0}\n\tActual Output: {1}\n\t", expectedOutput, output.ToString());
+            Console.WriteLine("\tExpected Output: {0}\n\tActual Output: {1}", expectedOutput, output.ToString());
             var previousColor = Console.ForegroundColor;
             Console.ForegroundColor = passed ? ConsoleColor.Green : ConsoleColor.Red;
-            Console.WriteLine("Passed: {0}", passed);
+            Console.WriteLine("\tPassed: {0}", passed);
             Console.ForegroundColor = previousColor;
             return passed;
         }
@@ -35,17 +45,13 @@ namespace BF
             bool result = true;
             result &= RunTest("Loop_Test", "++[>,+.<-]", "ab", "bc");
             result &= RunTest("Dual_Loop_Test", "++[>,>+++++[<+.>-]<<-]", "ab", "bcdefcdefg");
-            result &= RunTestFile("loop_skip_test", "ab", "b");
-            result &= RunTestFile("hello_world", "", "Hello World!\n");
-            result &= RunTestFile("HelloWorld_Variant", "", "Hello World!\n");
-            result &= RunTestFile("bitwidth", "", "Hello, world!\n");
+            foreach (var file in Directory.EnumerateFiles("tests"))
+            {
+                result &= RunTestFile(file);
+            }
 
             var previousColor = Console.ForegroundColor;
             Console.ForegroundColor = result ? ConsoleColor.Green : ConsoleColor.Red;
-            for (int i = 0; i < 5; i++)
-            {
-                Console.WriteLine();
-            }
             Console.WriteLine("===================");
             if (result)
                 Console.WriteLine("All test cases passed\n\n\n");
