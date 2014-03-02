@@ -35,6 +35,7 @@ namespace BF
             bool result = true;
             result &= RunTest("Loop_Test", "++[>,+.<-]", "ab", "bc");
             result &= RunTest("Dual_Loop_Test", "++[>,>+++++[<+.>-]<<-]", "ab", "bcdefcdefg");
+            result &= RunTestFile("loop_skip_test", "ab", "b");
             result &= RunTestFile("hello_world", "", "Hello World!\n");
             result &= RunTestFile("HelloWorld_Variant", "", "Hello World!\n");
 
