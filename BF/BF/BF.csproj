@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="tests\HelloWorld_Variant.bf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="tests\hello_world.bf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

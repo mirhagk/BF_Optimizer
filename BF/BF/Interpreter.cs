@@ -23,7 +23,7 @@ namespace BF
             Error = error ?? Console.Error;
             MemorySize = memSize;
         }
-        public void Run(string code)
+        public void Run(string code, bool debug=false)
         {
             int[] memory = new int[MemorySize];
             int ptr = 0;
@@ -46,11 +46,28 @@ namespace BF
                         ptr++;
                         break;
                     case '[':
-                        labels.Push(i);
+                        if (memory[ptr] == 0)
+                        {
+                            int numToMatch = 1;
+                            while(numToMatch>0)
+                            {
+                                i++;
+                                if (code[i] == ']')
+                                    numToMatch--;
+                                else if (code[i] == '[')
+                                    numToMatch++;
+                            }
+                        }
+                        else
+                            labels.Push(i);
                         break;
                     case ']':
                         if (labels.Count == 0)
                             Error.WriteLine("ERROR: ] has no matching [ at position {0}", i);
+                        if (debug)
+                        {
+                            Error.WriteLine("DEBUG: Jumping to position {0}, pointer at {1}, memory at {2}", i, ptr, memory[ptr]);
+                        }
                         if (memory[ptr] != 0)
                             i = labels.Peek();
                         else
