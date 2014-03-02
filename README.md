@@ -11,7 +11,7 @@ Interpreter:
 
 > A simple interpreter to run BF programs with no upfront cost
 
-Needs to be built
+The interpreter is built, and runs with test cases.
 
 Compiler:
 -----------
@@ -31,3 +31,10 @@ JIT Compiler:
 -----------
 
 Needs to be built
+
+
+Licensing notes
+===
+
+The project is licensed as per the license file, but the test cases may have their own license files, specifically `bitwidth.bf` which is licensed under [GNU GPL Version 2](https://github.com/rdebath/Brainfuck/blob/master/LICENSE)
+

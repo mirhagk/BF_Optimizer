@@ -38,6 +38,7 @@ namespace BF
             result &= RunTestFile("loop_skip_test", "ab", "b");
             result &= RunTestFile("hello_world", "", "Hello World!\n");
             result &= RunTestFile("HelloWorld_Variant", "", "Hello World!\n");
+            result &= RunTestFile("bitwidth", "", "Hello, world!\n");
 
             var previousColor = Console.ForegroundColor;
             Console.ForegroundColor = result ? ConsoleColor.Green : ConsoleColor.Red;
