@@ -23,15 +23,33 @@ namespace BF
             Console.WriteLine("Running Test Case {0}", testName);
             interpret.Run(code,debug);
             bool passed = expectedOutput == output.ToString();
-            Console.WriteLine("\tExpected Output: {0}\n\tActual Output: {1}\n\tPassed: {2}", expectedOutput, output.ToString(), passed);
+            Console.WriteLine("\tExpected Output: {0}\n\tActual Output: {1}\n\t", expectedOutput, output.ToString());
+            var previousColor = Console.ForegroundColor;
+            Console.ForegroundColor = passed ? ConsoleColor.Green : ConsoleColor.Red;
+            Console.WriteLine("Passed: {0}", passed);
+            Console.ForegroundColor = previousColor;
             return passed;
         }
         static void TestCases()
         {
-            RunTest("Loop_Test", "++[>,+.<-]", "ab", "bc");
-            RunTest("Dual_Loop_Test", "++[>,>+++++[<+.>-]<<-]", "ab", "bcdefcdefg");
-            RunTestFile("hello_world","","Hello World!\n");
-            RunTestFile("HelloWorld_Variant", "", "Hello World!\n");
+            bool result = true;
+            result &= RunTest("Loop_Test", "++[>,+.<-]", "ab", "bc");
+            result &= RunTest("Dual_Loop_Test", "++[>,>+++++[<+.>-]<<-]", "ab", "bcdefcdefg");
+            result &= RunTestFile("hello_world", "", "Hello World!\n");
+            result &= RunTestFile("HelloWorld_Variant", "", "Hello World!\n");
+
+            var previousColor = Console.ForegroundColor;
+            Console.ForegroundColor = result ? ConsoleColor.Green : ConsoleColor.Red;
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine();
+            }
+            Console.WriteLine("===================");
+            if (result)
+                Console.WriteLine("All test cases passed\n\n\n");
+            else
+                Console.WriteLine("One or more test cases failed\n\n\n");
+            Console.ForegroundColor = previousColor;
         }
         static void Main(string[] args)
         {
